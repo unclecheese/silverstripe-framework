@@ -8,9 +8,6 @@
         "silverstripe",
         "framework"
     ],
-    "repositories": [
-        { "type": "vcs", "url": "https://github.com/open-sausages/silverstripe-admin" }
-    ],
     "authors": [
         {
             "name": "SilverStripe",
