@@ -58,12 +58,14 @@ before_script:
   - mkdir ./public
   - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:2.0.x-dev --no-update; fi
   - if [[ $DB == SQLITE ]]; then composer require silverstripe/sqlite3:2.0.x-dev --no-update; fi
-  - composer require silverstripe/recipe-testing:^1 silverstripe/recipe-core:1.2.x-dev silverstripe/admin:1.2.x-dev silverstripe/versioned:1.2.x-dev --no-update
+  - composer require silverstripe/recipe-testing:^1 silverstripe/recipe-core:1.2.x-dev silverstripe/versioned:1.2.x-dev --no-update
   - if [[ $PHPUNIT_TEST == cms ]] || [[ $BEHAT_TEST == cms ]]; then composer require silverstripe/recipe-cms:1.2.x-dev --no-update; fi
   - if [[ $PHPCS_TEST ]]; then composer global require squizlabs/php_codesniffer:^3 --prefer-dist --no-interaction --no-progress --no-suggest -o; fi
   - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
   - nvm install 6 && npm install -g yarn && yarn install --network-concurrency 1
-  - cd vendor/silverstripe/admin
+  - cd vendor/silverstripe
+  - git clone -b test-behat https://github.com/unclecheese/silverstripe-admin admin
+  - cd admin
   - yarn
   - NODE_ENV=development node_modules/webpack/bin/webpack.js
   - cd ../../../
