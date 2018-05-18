@@ -69,6 +69,7 @@ before_script:
   - yarn
   - NODE_ENV=development node_modules/webpack/bin/webpack.js
   - cd ../../../
+  - composer vendor-expose
 # Log constants to CI for debugging purposes
   - php ./tests/dump_constants.php
 
