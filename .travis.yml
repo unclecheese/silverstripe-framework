@@ -68,7 +68,9 @@ before_script:
   - cd admin
   - yarn
   - NODE_ENV=development node_modules/webpack/bin/webpack.js
-  - cd ../../../
+  - cd ../
+  - git clone -b test-behat https://github.com/unclecheese/silverstripe-graphql graphql
+  - cd ../../
   - composer vendor-expose
 # Log constants to CI for debugging purposes
   - php ./tests/dump_constants.php
