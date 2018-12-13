@@ -4,6 +4,7 @@ namespace SilverStripe\ORM;
 
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\Connect\Query;
 use SilverStripe\ORM\Queries\SQLConditionGroup;
@@ -20,6 +21,7 @@ use InvalidArgumentException;
  */
 class DataQuery
 {
+    use Injectable;
 
     /**
      * @var string
