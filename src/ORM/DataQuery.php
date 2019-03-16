@@ -23,6 +23,14 @@ class DataQuery
 {
     use Injectable;
 
+    const JOIN_INNERJOIN = 'INNER_JOIN';
+
+    const JOIN_LEFTJOIN = 'LEFT_JOIN';
+
+    const JOIN_HASMANY = 'HASMANY_JOIN';
+
+    const JOIN_MANYMANY = 'MANYMANY_JOIN';
+
     /**
      * @var string
      */
@@ -280,19 +288,19 @@ class DataQuery
             foreach ($this->joins as $join) {
                 $type = array_shift($join);
                 switch ($type) {
-                    case 'leftJoin':
+                    case self::JOIN_LEFTJOIN:
                         $this->query->addLeftJoin(...$join);
                         break;
 
-                    case 'innerJoin':
+                    case self::JOIN_INNERJOIN:
                         $this->query->addInnerJoin(...$join);
                         break;
 
-                    case 'joinHasManyRelation':
+                    case self::JOIN_HASMANY:
                         $this->joinHasManyRelation(...$join);
                         break;
 
-                    case 'joinManyManyRelationship':
+                    case self::JOIN_MANYMANY:
                         $this->joinManyManyRelationship(...$join);
                         break;
                 }
@@ -880,7 +888,7 @@ class DataQuery
         // TO DO: move to setter
 
         if ($table) {
-            $this->joins[] = ['innerJoin', $table, $onClause, $alias, $order, $parameters];
+            $this->joins[] = [self::JOIN_INNERJOIN, $table, $onClause, $alias, $order, $parameters];
         }
         return $this;
     }
@@ -900,7 +908,7 @@ class DataQuery
     public function leftJoin($table, $onClause, $alias = null, $order = 20, $parameters = array())
     {
         if ($table) {
-            $this->joins[] = ['leftJoin', $table, $onClause, $alias, $order, $parameters];
+            $this->joins[] = [self::JOIN_LEFTJOIN, $table, $onClause, $alias, $order, $parameters];
         }
         return $this;
     }
@@ -979,7 +987,7 @@ class DataQuery
                 }
                 // Join via has_many
                 $this->joins[] = [
-                    'joinHasManyRelation',
+                    self::JOIN_HASMANY,
                     $modelClass, $rel, $component, $parentPrefix, $tablePrefix, 'has_many'
                 ];
                 $modelClass = $component;
@@ -990,7 +998,7 @@ class DataQuery
             if ($component = $schema->belongsToComponent($modelClass, $rel)) {
                 // Piggy back off has_many logic
                 $this->joins[] = [
-                    'joinHasManyRelation',
+                    self::JOIN_HASMANY,
                     $modelClass, $rel, $component, $parentPrefix, $tablePrefix, 'belongs_to',
                 ];
                 $modelClass = $component;
@@ -1004,7 +1012,7 @@ class DataQuery
                     throw new InvalidArgumentException("$rel is not a linear relation on model $modelClass");
                 }
                 $this->joins[] = [
-                    'joinManyManyRelationship',
+                    self::JOIN_MANYMANY,
                     $component['relationClass'],
                     $component['parentClass'],
                     $component['childClass'],
