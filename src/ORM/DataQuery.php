@@ -666,8 +666,6 @@ class DataQuery
      */
     public function firstRow()
     {
-         // TODO: executor has getFirstRow()
-
         return $this->getFinalisedQuery()->firstRow();
     }
 
@@ -679,8 +677,6 @@ class DataQuery
      */
     public function lastRow()
     {
-        // TODO: executor has getLastRow()
-
         return $this->getFinalisedQuery()->lastRow();
     }
 
