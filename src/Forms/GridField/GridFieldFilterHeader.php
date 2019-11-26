@@ -77,6 +77,12 @@ class GridFieldFilterHeader implements GridField_URLHandler, GridField_HTMLProvi
     protected $updateSearchFormCallback = null;
 
     /**
+     * The name of the default search field
+     * @var string|null
+     */
+    protected $searchField = null;
+
+    /**
      * @inheritDoc
      */
     public function getURLHandlers($gridField)
@@ -123,6 +129,25 @@ class GridFieldFilterHeader implements GridField_URLHandler, GridField_HTMLProvi
     public function getThrowExceptionOnBadDataType()
     {
         return $this->throwExceptionOnBadDataType;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSearchField(): ?string
+    {
+        return $this->searchField;
+    }
+
+    /**
+     * @param string $field
+     * @return $this
+     */
+    public function setSearchField(string $field): self
+    {
+        $this->searchField = $field;
+
+        return $this;
     }
 
     /**
@@ -276,8 +301,11 @@ class GridFieldFilterHeader implements GridField_URLHandler, GridField_HTMLProvi
         }
         $context->setSearchParams($params);
 
-        $searchField = $context->getSearchFields()->first();
-        $searchField = $searchField && property_exists($searchField, 'name') ? $searchField->name : null;
+        $searchField = $this->getSearchField();
+        if (!$searchField) {
+            $searchField = $context->getSearchFields()->first();
+            $searchField = $searchField && property_exists($searchField, 'name') ? $searchField->name : null;
+        }
 
         $name = $gridField->Title ?: singleton($gridField->getModelClass())->i18n_plural_name();
 
