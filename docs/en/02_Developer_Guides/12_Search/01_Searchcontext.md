@@ -87,6 +87,11 @@ In case you need multiple contexts, consider name-spacing your request parameter
 the `$fields` constructor parameter.
 [/notice]
 
+### Customising the primary search field
+
+The monolithic search bar that is applied to tabular views in the CMS searches on field, unless
+the advanced search options are exposed. To customise this field, see the [Scaffolding documentation](../model/scaffolding#context-specific-primary-search-field).
+
 ### Generating a search form from the context
 
 

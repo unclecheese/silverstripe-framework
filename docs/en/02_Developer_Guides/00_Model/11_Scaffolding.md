@@ -152,6 +152,50 @@ class Player extends DataObject
 
 ```
 
+### Primary search field
+
+In tabular views such as `GridField`, there is a monolithic search bar. By default, this will be the *first
+field* in your `searchableFields` list.
+
+As an example, let's look at a definition like this:
+
+```php
+private static $searchable_fields = [
+    'Name',
+    'JobTitle',
+];
+``` 
+
+That `Name` comes first in that list is actually quite a good thing. The user will likely want the 
+single search input to target the `Name` field rather something with a more predictable value, 
+like `JobTitle`. 
+
+By contrast, let's look at this definition:
+
+```php
+private static $searchable_fields = [
+    'Price',
+    'Description',
+    'Title',
+];
+```
+
+It's unlikely that the user will want to search on `Price`. A better candidate would be `Title` or `Description`. Rather than reorder the array, which is counter-intuitive, it is recommended
+that you use the `primary_search_field` configuration property.
+
+```php
+private static $primary_search_field = 'Title';
+```
+
+#### Context-specific primary search field
+
+If the primary search field is not universal, but rather, context-dependent, you can customise
+the search field on the `GridFieldFilterHeader` component instance.
+
+```php
+$myGrid->getConfig()->getComponentByType(GridFieldFilterHeader::class)->setSearchField('Title');
+```
+
 ### Summary Fields
 
 Summary fields can be used to show a quick overview of the data for a specific [DataObject](api:SilverStripe\ORM\DataObject) record. The most common use 
