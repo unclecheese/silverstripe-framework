@@ -20,12 +20,12 @@ Often times, you'll need to know the name of the type given a class name. There'
 ### Getting the type name at build time
 
 If you need to know the name of the type _during the build_, e.g. creating the name of an operation, field, query, etc,
-you should use the `Build::requireActiveBuild()` accessor. This will get you the schema that is currently being built,
+you should use the `BuildState::requireActiveBuild()` accessor. This will get you the schema that is currently being built,
 and throw if no build is active. A more tolerant method is `getActiveBuild()` which will return null if no schema
 is being built.
 
 ```php
-Build::requireActiveBuild()->findOrMakeModel($className)->getName();
+BuildState::requireActiveBuild()->findOrMakeModel($className)->getName();
 ```
 
 ### Getting the type name from within your app

@@ -31,7 +31,8 @@ class DuplicateCreator implements OperationCreator
         array $config = []
     ): ?ModelOperation
     {
-        $mutationName = 'duplicate' . ucfirst(Schema::pluralise($typeName));
+        $schema = BuildState::requireActiveBuild();
+        $mutationName = 'duplicate' . ucfirst($schema->pluralise($typeName));
 
         return ModelMutation::create($model, $mutationName)
             ->setType($typeName)
